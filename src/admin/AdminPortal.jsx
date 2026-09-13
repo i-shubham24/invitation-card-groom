@@ -1,19 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { fetchAllRsvps, deleteAllRsvps, isRemote } from '../lib/rsvpStore'
+import { supabase } from '../lib/supabase'
 import { EVENTS } from '../invite/layout'
 import './admin.css'
 
-// Simple credentials. Override in production via Vercel env vars:
-//   VITE_ADMIN_USER, VITE_ADMIN_PASS
-const USER = import.meta.env.VITE_ADMIN_USER || 'admin'
-const PASS = import.meta.env.VITE_ADMIN_PASS || 'akashharman'
-const SESSION_KEY = 'wed-admin-auth'
-
 const EVENT_NAME = Object.fromEntries(EVENTS.map((e) => [e.id, e.name]))
 
-// Collapse a guest's separate submissions (RSVP details + blessing message)
-// into one row, matched by name ignoring case/extra spaces. Works even if the
-// two arrived as separate DB rows (the API can't UPDATE, so they may be).
 const normName = (n) => String(n || '').trim().toLowerCase().replace(/\s+/g, ' ')
 function mergeByName(rows) {
   const map = new Map()
@@ -50,26 +42,36 @@ function toCSV(rows) {
   return [head.join(','), ...lines].join('\n')
 }
 
-function Login({ onOk }) {
-  const [u, setU] = useState('')
-  const [p, setP] = useState('')
+function Login() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [err, setErr] = useState('')
-  function submit(e) {
+  const [loading, setLoading] = useState(false)
+
+  async function submit(e) {
     e.preventDefault()
-    if (u === USER && p === PASS) {
-      sessionStorage.setItem(SESSION_KEY, '1')
-      onOk()
-    } else {
-      setErr('Incorrect username or password')
+    if (!isRemote) {
+      // In local mode without Supabase, just bypass
+      setErr('Supabase not connected. This login is disabled.')
+      return
+    }
+    setLoading(true)
+    setErr('')
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    if (error) {
+      setErr(error.message)
+      setLoading(false)
     }
   }
+
   return (
     <form className="adm-login" onSubmit={submit}>
-      <h1>Wedding RSVP · Admin</h1>
-      <label>Username<input value={u} onChange={(e) => setU(e.target.value)} autoComplete="username" /></label>
-      <label>Password<input type="password" value={p} onChange={(e) => setP(e.target.value)} autoComplete="current-password" /></label>
+      <h1>Wedding RSVP Admin</h1>
+      {!isRemote && <p style={{color: '#b23b3b', marginBottom: '1rem', textAlign: 'center'}}>Supabase not connected! Cannot log in.</p>}
+      <label>Email<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
+      <label>Password<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required /></label>
       {err && <p className="adm-err">{err}</p>}
-      <button type="submit">Sign in</button>
+      <button type="submit" disabled={loading || !isRemote}>{loading ? 'Signing in...' : 'Sign in'}</button>
     </form>
   )
 }
@@ -127,15 +129,15 @@ function Dashboard({ onLogout }) {
         <h1>RSVP Responses</h1>
         <div className="adm__actions">
           <button onClick={load}>↻ Refresh</button>
-          <button onClick={download} disabled={!rows || !rows.length}>⤓ Export CSV</button>
-          <button className="adm__danger" onClick={clearAll} disabled={!rows || !rows.length}>🗑 Clear all</button>
+          <button onClick={download} disabled={!rows || !rows.length}>↓ Export CSV</button>
+          <button className="adm__danger" onClick={clearAll} disabled={!rows || !rows.length}>✗ Clear all</button>
           <button className="adm__logout" onClick={onLogout}>Sign out</button>
         </div>
       </header>
 
       {!isRemote && (
         <p className="adm__note">
-          ⚠ Showing <strong>this device's</strong> local responses. Connect Supabase
+          ⚠️ Showing <strong>this device's</strong> local responses. Connect Supabase
           (env vars) to collect everyone's responses centrally.
         </p>
       )}
@@ -152,7 +154,7 @@ function Dashboard({ onLogout }) {
       </section>
 
       {rows == null ? (
-        <p className="adm__loading">Loading…</p>
+        <p className="adm__loading">Loading...</p>
       ) : rows.length === 0 ? (
         <p className="adm__empty">No responses yet.</p>
       ) : (
@@ -166,11 +168,11 @@ function Dashboard({ onLogout }) {
                 <tr key={r.id || i} className={r.attending ? '' : 'is-no'}>
                   <td>{i + 1}</td>
                   <td>{r.name}</td>
-                  <td>{r.attending === true ? '✅ Yes' : r.attending === false ? '❌ No' : '💛 Wish'}</td>
-                  <td>{r.attending ? r.guests : '—'}</td>
-                  <td>{(r.events || []).map((id) => EVENT_NAME[id] || id).join(', ') || '—'}</td>
-                  <td className="adm__msg">{r.message || '—'}</td>
-                  <td>{r.created_at ? new Date(r.created_at).toLocaleString() : '—'}</td>
+                  <td>{r.attending === true ? '✓ Yes' : r.attending === false ? '✗ No' : '💬 Wish'}</td>
+                  <td>{r.attending ? r.guests : '-'}</td>
+                  <td>{(r.events || []).map((id) => EVENT_NAME[id] || id).join(', ') || '-'}</td>
+                  <td className="adm__msg">{r.message || '-'}</td>
+                  <td>{r.created_at ? new Date(r.created_at).toLocaleString() : '-'}</td>
                 </tr>
               ))}
             </tbody>
@@ -182,7 +184,34 @@ function Dashboard({ onLogout }) {
 }
 
 export default function AdminPortal() {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem(SESSION_KEY) === '1')
-  if (!authed) return <Login onOk={() => setAuthed(true)} />
-  return <Dashboard onLogout={() => { sessionStorage.removeItem(SESSION_KEY); setAuthed(false) }} />
+  const [session, setSession] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!isRemote) {
+      setLoading(false)
+      return
+    }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      setLoading(false)
+    })
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  if (loading) return <div className="adm"><p className="adm__loading">Checking authentication...</p></div>
+
+  if (!session && isRemote) {
+    return <Login />
+  }
+
+  // If local, bypass auth just so we can see the local storage dashboard
+  return <Dashboard onLogout={async () => { if (isRemote) await supabase.auth.signOut() }} />
 }

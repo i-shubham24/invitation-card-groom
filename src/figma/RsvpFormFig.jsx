@@ -89,7 +89,7 @@ export default function RsvpFormFig({ onSaved }) {
     <div className="rff">
       <label className="rff__label">Full name</label>
       <input className="rff__input" type="text" placeholder="Enter your name"
-        value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" />
+        value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" maxLength={100} />
 
       <label className="rff__label">Will you be attending?</label>
       <div className="rff__attend">
