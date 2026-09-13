@@ -62,11 +62,12 @@ export const RSVP = {
 
 // Event metadata for the RSVP form. `venue` is shown; `map` opens Google Maps.
 export const EVENTS = [
+  { id: 'radha_ke_naam', name: 'Radha Ke Naam', venue: 'At Residence', map: 'At Residence' },
+  { id: 'akhand_path', name: 'Akhand Path Bhog', venue: 'At Residence', map: 'At Residence' },
   { id: 'shagun', name: 'Shagun', venue: 'At Blessings Resort, Rayya', map: 'Blessings Resort, Rayya' },
   { id: 'jaago', name: 'Jaago', venue: 'At Green Tulip, Amritsar', map: 'Green Tulip, Amritsar' },
   { id: 'anand', name: 'Anand Karaj', venue: 'At Baba Shri Chand Ji Gurudwara, Sandhu Colony, Amritsar', map: 'Baba Shri Chand Ji Gurudwara, Sandhu Colony, Amritsar' },
   { id: 'reception', name: 'Wedding reception', venue: 'At Maribella Resort, Amritsar', map: 'Maribella Resort, Amritsar' },
-  { id: 'sukhmani', name: 'Sukhmani Sahib Paath', venue: '78 Castlepark Grove, Halifax, NS, B3M 4X9', map: '78 Castlepark Grove, Halifax, NS B3M 4X9', date: '12 September 2026' },
 ]
 
 export const COUPLE = 'Akashdeep Singh Sehdev & Harmandip Kaur'

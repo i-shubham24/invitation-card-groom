@@ -3,18 +3,23 @@ import { EVENTS } from '../invite/layout'
 import { submitRsvp } from '../lib/rsvpStore'
 
 const IC = {
-  shagun: '/decor/ic-shagun.png', jaago: '/decor/ic-jaago.png',
-  anand: '/decor/ic-anand.png', reception: '/decor/ic-reception.png',
+  radha_ke_naam: '/decor/ic-shagun2.png',
+  akhand_path: '/decor/ic-jaago2.png',
+  shagun: '/decor/ic-shagun2.png',
+  jaago: '/decor/ic-jaago2.png',
+  anand_karaj: '/decor/ic-anand2.png',
+  reception: '/decor/ic-anand2.png',
   sukhmani: '/decor/ic-anand.png', // Sikh prayer — reuse the gurudwara/prayer medallion
 }
 // Per-icon normalization so every medallion renders the same size and centered
 // (the source art has different scale/offset baked in; measured + corrected).
 const IC_FIX = {
+  radha_ke_naam: 'scale(0.936)',
+  akhand_path: 'scale(0.936)',
   shagun: 'scale(0.936)',
   jaago: 'scale(0.936)',
-  anand: 'translate(-13.9%, -17.6%) scale(1.323)',
+  anand_karaj: 'scale(0.936)',
   reception: 'scale(0.936)',
-  sukhmani: 'translate(-13.9%, -17.6%) scale(1.323)', // reuses ic-anand
 }
 const mapUrl = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`
 const DONE_KEY = 'wedding-rsvp-done-v2' // per-device: 'yes' | 'no'
@@ -119,11 +124,8 @@ export default function RsvpFormFig({ onSaved }) {
                       <em>📍 {ev.venue}</em>
                     </span>
                   </button>
-                  <a className="rff__map" href={mapUrl(ev.map)} target="_blank" rel="noopener noreferrer" title={`Directions to ${ev.venue}`}>
-                    📍 Map
-                  </a>
-                  <button type="button" className={`rff__check ${on ? 'on' : ''}`} onClick={() => toggle(ev.id)} aria-label={`Select ${ev.name}`}>
-                    {on ? '✓' : ''}
+                  <button type="button" className={`rff__toggle ${on ? 'on' : ''}`} onClick={() => toggle(ev.id)} aria-label={`Select ${ev.name}`}>
+                    <div className="rff__toggle-knob"></div>
                   </button>
                 </div>
               )

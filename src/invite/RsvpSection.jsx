@@ -4,10 +4,12 @@ import { submitRsvp } from '../lib/rsvpStore'
 import './rsvp-section.css'
 
 const ICONS = {
-  shagun: '/decor/ic-shagun.png',
-  jaago: '/decor/ic-jaago.png',
-  anand: '/decor/ic-anand.png',
-  reception: '/decor/ic-reception.png',
+  radha_ke_naam: '/decor/ic-shagun2.png',
+  akhand_path: '/decor/ic-jaago2.png',
+  shagun: '/decor/ic-shagun2.png',
+  jaago: '/decor/ic-jaago2.png',
+  anand_karaj: '/decor/ic-anand2.png',
+  reception: '/decor/ic-anand2.png',
 }
 
 /** Small hook: adds `is-in` when the element scrolls into view (for float-up). */

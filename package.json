@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.116.0",
     "esbuild": "^0.28.2",
     "puppeteer": "^25.9.0",
     "react": "^18.3.1",
