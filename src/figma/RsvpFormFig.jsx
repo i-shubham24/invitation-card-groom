@@ -3,13 +3,12 @@ import { EVENTS } from '../invite/layout'
 import { submitRsvp } from '../lib/rsvpStore'
 
 const IC = {
-  radha_ke_naam: '/decor/ic-shagun2.png',
-  akhand_path: '/decor/ic-jaago2.png',
+  radha_ke_naam: '/decor/ic-radha2.png',
+  akhand_path: '/decor/ic-akhand2.png',
   shagun: '/decor/ic-shagun2.png',
   jaago: '/decor/ic-jaago2.png',
-  anand_karaj: '/decor/ic-anand2.png',
+  anand: '/decor/ic-anand2.png',
   reception: '/decor/ic-anand2.png',
-  sukhmani: '/decor/ic-anand.png', // Sikh prayer — reuse the gurudwara/prayer medallion
 }
 // Per-icon normalization so every medallion renders the same size and centered
 // (the source art has different scale/offset baked in; measured + corrected).
@@ -18,7 +17,7 @@ const IC_FIX = {
   akhand_path: 'scale(0.936)',
   shagun: 'scale(0.936)',
   jaago: 'scale(0.936)',
-  anand_karaj: 'scale(0.936)',
+  anand: 'scale(0.936)',
   reception: 'scale(0.936)',
 }
 const mapUrl = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`
@@ -124,6 +123,7 @@ export default function RsvpFormFig({ onSaved }) {
                       <em>📍 {ev.venue}</em>
                     </span>
                   </button>
+                  <button type="button" className="rff__map" onClick={(e) => { e.stopPropagation(); window.open(mapUrl(ev.map), '_blank'); }} aria-label="Map">Map</button>
                   <button type="button" className={`rff__toggle ${on ? 'on' : ''}`} onClick={() => toggle(ev.id)} aria-label={`Select ${ev.name}`}>
                     <div className="rff__toggle-knob"></div>
                   </button>
