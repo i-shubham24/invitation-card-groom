@@ -34,9 +34,9 @@
 .fig__formbg {
   position: absolute;
   left: 15%;
-  top: 90.6%;
+  top: 90.4%;
   width: 70%;
-  height: 5.302%;
+  height: 5.502%;
   z-index: 50;
   /* deeper, more opaque backing so the form reads clearly over the artwork */
   background: rgba(240, 214, 204, 0.82);
@@ -212,14 +212,14 @@
 .fig__form {
   position: absolute;
   left: 18%;
-  top: 91.4%;
+  top: 91.2%;
   width: 64%;
   z-index: 90; /* above the decorative frame image (z 86) */
 }
 .rff {
   display: flex;
   flex-direction: column;
-  gap: 0.7cqw;
+  gap: 1.0cqw;
 }
 .rff__label {
   font-family: 'Cormorant Garamond', serif;
@@ -280,7 +280,7 @@ textarea.rff__input {
   font-family: 'Cormorant Garamond', serif; font-weight: 600;
   letter-spacing: 0.2cqw; font-size: 2.1cqw; color: #a26a5f;
 }
-.rff__events { display: flex; flex-direction: column; gap: 1.1cqw; }
+.rff__events { display: flex; flex-direction: column; gap: 1.4cqw; }
 .rff__event {
   display: flex; align-items: center; gap: 1.4cqw;
   padding: 0.55cqw 1.8cqw;    /* thinner rows, same width from the sides */
