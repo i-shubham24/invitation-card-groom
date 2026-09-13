@@ -34,9 +34,9 @@
 .fig__formbg {
   position: absolute;
   left: 15%;
-  top: 90.325%;
+  top: 90.6%;
   width: 70%;
-  height: 5.577%;
+  height: 5.302%;
   z-index: 50;
   /* deeper, more opaque backing so the form reads clearly over the artwork */
   background: rgba(240, 214, 204, 0.82);
@@ -212,7 +212,7 @@
 .fig__form {
   position: absolute;
   left: 18%;
-  top: 91.199%;
+  top: 91.4%;
   width: 64%;
   z-index: 90; /* above the decorative frame image (z 86) */
 }
@@ -309,6 +309,7 @@ textarea.rff__input {
 }
 /* Map/directions button — sits just left of the checkbox for easy tapping */
 .rff__map {
+  border: 0;
   flex: none;
   display: inline-flex; align-items: center; gap: 0.36cqw;
   padding: 0.81cqw 1.44cqw;

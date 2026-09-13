@@ -3,22 +3,22 @@ import { EVENTS } from '../invite/layout'
 import { submitRsvp } from '../lib/rsvpStore'
 
 const IC = {
-  radha_ke_naam: '/decor/ic-radha2.png',
-  akhand_path: '/decor/ic-akhand2.png',
-  shagun: '/decor/ic-shagun2.png',
-  jaago: '/decor/ic-jaago2.png',
-  anand: '/decor/ic-anand2.png',
-  reception: '/decor/ic-anand2.png',
+  radha_ke_naam: '/decor/ic-shagun.png',
+  akhand_path: '/decor/ic-jaago.png',
+  shagun: '/decor/ic-shagun.png',
+  jaago: '/decor/ic-jaago.png',
+  anand: '/decor/ic-anand.png',
+  reception: '/decor/ic-reception.png',
 }
 // Per-icon normalization so every medallion renders the same size and centered
 // (the source art has different scale/offset baked in; measured + corrected).
 const IC_FIX = {
-  radha_ke_naam: 'scale(0.936)',
-  akhand_path: 'scale(0.936)',
-  shagun: 'scale(0.936)',
-  jaago: 'scale(0.936)',
-  anand: 'scale(0.936)',
-  reception: 'scale(0.936)',
+  radha_ke_naam: 'none',
+  akhand_path: 'none',
+  shagun: 'none',
+  jaago: 'none',
+  anand: 'none',
+  reception: 'none',
 }
 const mapUrl = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`
 const DONE_KEY = 'wedding-rsvp-done-v2' // per-device: 'yes' | 'no'
