@@ -7,7 +7,7 @@ let audio = null
 
 function get() {
   if (!audio) {
-    audio = new Audio('/media/laavan-phere.mp4')
+    audio = new Audio('/media/laavan-phere.m4a')
     audio.loop = true
     audio.volume = 0.6
     audio.preload = 'auto'
