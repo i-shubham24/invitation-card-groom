@@ -11,8 +11,7 @@
      node 234:199), whose fill the extractor didn't capture. Colors + per-stop
      opacities are transcribed 1:1 from Figma; 180deg runs it down the page.
      Shows through the artwork's soft edges. */
-  background-color: #e3837a;
-  background-image: linear-gradient(
+  background: linear-gradient(
     180deg,
     rgba(242, 193, 188, 1) 0%,
     rgba(92, 77, 178, 0.32) 9%,
