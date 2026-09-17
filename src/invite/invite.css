@@ -10,8 +10,8 @@
   flex-direction: column;
   align-items: center;
   /* blush field flanking the phone-width card on large screens */
-  background:
-    radial-gradient(120% 60% at 50% 0%, #fbeeeb 0%, #f4ddd8 60%, #ecccc6 100%);
+  background-color: #ecccc6;
+  background-image: radial-gradient(120% 60% at 50% 0%, #fbeeeb 0%, #f4ddd8 60%, #ecccc6 100%);
 }
 
 .invite__card {
